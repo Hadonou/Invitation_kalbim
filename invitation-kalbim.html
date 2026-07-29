@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Une invitation pour toi, Kalbim ❤️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF7F2;
+    --white:#FFFFFF;
+    --beige:#F0E6DD;
+    --grey-light:#E7E2DD;
+    --rose:#EAC9CE;
+    --rose-deep:#D9A8B1;
+    --text-dark:#4A4038;
+    --text-soft:#8A7D74;
+    --shadow: 0 10px 30px rgba(74,64,56,0.08);
+    --shadow-soft: 0 4px 14px rgba(74,64,56,0.06);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+  html,body{
+    height:100%;
+    font-family:'Poppins',sans-serif;
+    color:var(--text-dark);
+    background:linear-gradient(160deg,var(--cream) 0%,var(--beige) 55%,var(--rose) 130%);
+    background-attachment:fixed;
+    overflow-x:hidden;
+  }
+
+  .app{
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 16px;
+    position:relative;
+  }
+
+  /* ---------- coeurs flottants discrets ---------- */
+  .hearts-bg{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:0;
+  }
+  .heart-float{
+    position:absolute;
+    bottom:-40px;
+    color:var(--rose-deep);
+    opacity:0;
+    font-size:16px;
+    animation:floatUp 12s linear infinite;
+  }
+  @keyframes floatUp{
+    0%{transform:translateY(0) translateX(0) rotate(0deg);opacity:0;}
+    10%{opacity:.35;}
+    90%{opacity:.25;}
+    100%{transform:translateY(-110vh) translateX(20px) rotate(20deg);opacity:0;}
+  }
+
+  /* ---------- carte principale ---------- */
+  .card{
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width:480px;
+    background:rgba(255,255,255,0.72);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,0.6);
+    border-radius:28px;
+    box-shadow:var(--shadow);
+    padding:44px 32px 36px;
+    text-align:center;
+    animation:fadeInUp .9s ease both;
+  }
+
+  @keyframes fadeInUp{
+    from{opacity:0;transform:translateY(24px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  .screen{display:none;}
+  .screen.active{display:block;animation:fadeInUp .6s ease both;}
+
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--text-soft);
+    margin-bottom:10px;
+  }
+
+  h1{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:clamp(28px,7vw,38px);
+    line-height:1.15;
+    margin-bottom:18px;
+    color:var(--text-dark);
+  }
+
+  h1 .heart-inline{color:var(--rose-deep);}
+
+  p.lead{
+    font-size:15.5px;
+    line-height:1.7;
+    color:var(--text-soft);
+    margin-bottom:8px;
+    font-weight:300;
+  }
+
+  p.lead.tight{margin-bottom:0;}
+
+  .spacer-sm{height:18px;}
+  .spacer-md{height:28px;}
+
+  /* ---------- boutons ---------- */
+  .btn-row{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin-top:30px;
+  }
+
+  .btn{
+    border:none;
+    outline:none;
+    cursor:pointer;
+    font-family:'Poppins',sans-serif;
+    font-size:16px;
+    font-weight:500;
+    padding:17px 20px;
+    border-radius:18px;
+    transition:transform .18s ease, box-shadow .18s ease, background .25s ease;
+    box-shadow:var(--shadow-soft);
+    -webkit-user-select:none;
+    user-select:none;
+  }
+  .btn:active{transform:scale(0.96);}
+
+  .btn-primary{
+    background:linear-gradient(135deg,var(--rose-deep),var(--rose));
+    color:#fff;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(217,168,177,0.4);}
+
+  .btn-secondary{
+    background:var(--white);
+    color:var(--text-soft);
+    border:1px solid var(--grey-light);
+  }
+  .btn-secondary:hover{transform:translateY(-2px);background:var(--cream);}
+
+  .btn.shake{animation:shake .5s ease;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    20%{transform:translateX(-4px);}
+    40%{transform:translateX(4px);}
+    60%{transform:translateX(-3px);}
+    80%{transform:translateX(3px);}
+  }
+
+  /* ---------- cartes de choix (jour / restaurant) ---------- */
+  .choice-grid{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin-top:26px;
+  }
+  .choice-grid.two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+  .choice-grid.three-col{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+  }
+  @media (max-width:380px){
+    .choice-grid.three-col{grid-template-columns:1fr;}
+  }
+
+  .choice-card{
+    background:var(--white);
+    border:1.5px solid var(--grey-light);
+    border-radius:18px;
+    padding:18px 14px;
+    cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    text-align:center;
+  }
+  .choice-card:hover{
+    transform:translateY(-3px) scale(1.02);
+    box-shadow:0 10px 20px rgba(217,168,177,0.25);
+    border-color:var(--rose-deep);
+  }
+  .choice-card.selected{
+    background:linear-gradient(135deg,var(--rose),var(--rose-deep));
+    border-color:var(--rose-deep);
+    color:#fff;
+    transform:scale(1.02);
+  }
+  .choice-emoji{font-size:26px;display:block;margin-bottom:8px;}
+  .choice-title{font-weight:500;font-size:15px;}
+  .choice-sub{font-size:12px;color:var(--text-soft);margin-top:3px;}
+  .choice-card.selected .choice-sub{color:rgba(255,255,255,0.85);}
+
+  /* ---------- champ texte ---------- */
+  textarea{
+    width:100%;
+    margin-top:22px;
+    border:1.5px solid var(--grey-light);
+    border-radius:16px;
+    padding:14px 16px;
+    font-family:'Poppins',sans-serif;
+    font-size:14px;
+    color:var(--text-dark);
+    resize:vertical;
+    min-height:100px;
+    background:var(--white);
+    transition:border-color .2s ease, box-shadow .2s ease;
+  }
+  textarea:focus{
+    outline:none;
+    border-color:var(--rose-deep);
+    box-shadow:0 0 0 4px rgba(217,168,177,0.15);
+  }
+  textarea::placeholder{color:#B7ACA3;}
+
+  /* ---------- barre de progression ---------- */
+  .progress-wrap{
+    display:flex;
+    gap:6px;
+    justify-content:center;
+    margin-bottom:26px;
+  }
+  .progress-dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--grey-light);
+    transition:background .3s ease, transform .3s ease;
+  }
+  .progress-dot.active{background:var(--rose-deep);transform:scale(1.3);}
+  .progress-dot.done{background:var(--rose);}
+
+  /* ---------- résumé ---------- */
+  .summary-box{
+    text-align:left;
+    background:var(--cream);
+    border-radius:16px;
+    padding:18px 20px;
+    margin-top:22px;
+    border:1px solid var(--grey-light);
+  }
+  .summary-line{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:9px 0;
+    border-bottom:1px dashed var(--grey-light);
+    font-size:14px;
+  }
+  .summary-line:last-child{border-bottom:none;}
+  .summary-label{color:var(--text-soft);font-weight:400;}
+  .summary-value{font-weight:500;text-align:right;}
+
+  /* ---------- succès ---------- */
+  .success-icon{
+    font-size:52px;
+    margin-bottom:6px;
+    display:inline-block;
+    animation:pop .6s ease;
+  }
+  @keyframes pop{
+    0%{transform:scale(0.4);opacity:0;}
+    60%{transform:scale(1.15);}
+    100%{transform:scale(1);opacity:1;}
+  }
+
+  .floating-hearts-burst{
+    position:relative;
+    height:0;
+  }
+  .burst-heart{
+    position:absolute;
+    left:50%;
+    bottom:0;
+    font-size:20px;
+    color:var(--rose-deep);
+    opacity:0;
+    animation:burstUp 1.8s ease forwards;
+  }
+  @keyframes burstUp{
+    0%{opacity:0;transform:translate(-50%,0) scale(0.6);}
+    15%{opacity:1;}
+    100%{opacity:0;transform:translate(calc(-50% + var(--dx,0px)), -140px) scale(1);}
+  }
+
+  /* ---------- modal confirmation "Non" ---------- */
+  .modal-overlay{
+    position:fixed;inset:0;
+    background:rgba(74,64,56,0.35);
+    backdrop-filter:blur(3px);
+    display:flex;align-items:center;justify-content:center;
+    z-index:20;
+    opacity:0;pointer-events:none;
+    transition:opacity .25s ease;
+    padding:20px;
+  }
+  .modal-overlay.active{opacity:1;pointer-events:auto;}
+  .modal-box{
+    background:#fff;
+    border-radius:22px;
+    padding:32px 26px;
+    max-width:340px;
+    width:100%;
+    text-align:center;
+    box-shadow:var(--shadow);
+    transform:translateY(14px) scale(0.96);
+    transition:transform .25s ease;
+  }
+  .modal-overlay.active .modal-box{transform:translateY(0) scale(1);}
+  .modal-box p{font-size:15px;color:var(--text-dark);margin-bottom:20px;font-weight:400;}
+
+  .footer-note{
+    margin-top:22px;
+    font-size:11.5px;
+    color:var(--text-soft);
+    opacity:.7;
+  }
+
+  ::selection{background:var(--rose);color:#fff;}
+</style>
+</head>
+<body>
+
+<!-- Coeurs flottants d'ambiance en arrière-plan -->
+<div class="hearts-bg" id="heartsBg"></div>
+
+<div class="app">
+
+  <!-- ===================== ÉCRAN 0 : ACCUEIL ===================== -->
+  <div class="card" id="cardMain">
+
+    <!-- --- Écran d'accueil --- -->
+    <div class="screen active" id="screen-home">
+      <div class="eyebrow">Pour toi</div>
+      <h1>Bonjour Kalbim <span class="heart-inline">❤️</span></h1>
+      <p class="lead">J'ai préparé une petite surprise pour toi&hellip;</p>
+      <p class="lead">J'aimerais t'inviter à passer un joli moment avec moi.</p>
+      <p class="lead" style="margin-top:14px;font-weight:500;color:var(--text-dark);">Accepte-tu cette invitation ?</p>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnYes">❤️ Oui, avec plaisir</button>
+        <button class="btn btn-secondary" id="btnNo">💔 Non</button>
+      </div>
+    </div>
+
+    <!-- --- Écran succès intermédiaire (après "Oui") --- -->
+    <div class="screen" id="screen-success">
+      <div class="floating-hearts-burst" id="burstZone"></div>
+      <div class="success-icon">🥰</div>
+      <h1>Merci Kalbim ❤️</h1>
+      <p class="lead">Ça me fait vraiment plaisir.</p>
+    </div>
+
+    <!-- --- Écran final "Non confirmé" --- -->
+    <div class="screen" id="screen-declined">
+      <div class="success-icon">🤍</div>
+      <h1>Merci d'avoir pris<br>le temps de répondre</h1>
+      <p class="lead">❤️</p>
+      <p class="footer-note" id="closeNote" style="margin-top:20px;">Tu peux fermer cette page maintenant.</p>
+    </div>
+
+    <!-- --- Étape 1 : Jour --- -->
+    <div class="screen" id="screen-step1">
+      <div class="progress-wrap">
+        <div class="progress-dot active" data-step="1"></div>
+        <div class="progress-dot" data-step="2"></div>
+        <div class="progress-dot" data-step="3"></div>
+        <div class="progress-dot" data-step="4"></div>
+      </div>
+      <div class="eyebrow">Étape 1</div>
+      <h1>Quel jour te conviendrait le mieux ?</h1>
+      <div class="choice-grid two-col" id="dayChoices">
+        <div class="choice-card" data-value="Mardi">
+          <span class="choice-emoji">📅</span>
+          <span class="choice-title">Mardi</span>
+        </div>
+        <div class="choice-card" data-value="Dimanche">
+          <span class="choice-emoji">📅</span>
+          <span class="choice-title">Dimanche</span>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnNextStep1" disabled>Continuer</button>
+      </div>
+    </div>
+
+    <!-- --- Étape 2 : Heure --- -->
+    <div class="screen" id="screen-step2">
+      <div class="progress-wrap">
+        <div class="progress-dot done" data-step="1"></div>
+        <div class="progress-dot active" data-step="2"></div>
+        <div class="progress-dot" data-step="3"></div>
+        <div class="progress-dot" data-step="4"></div>
+      </div>
+      <div class="eyebrow">Étape 2</div>
+      <h1>À quelle heure préfères-tu ?</h1>
+      <div class="choice-grid three-col" id="timeChoices">
+        <div class="choice-card" data-value="18h">
+          <span class="choice-emoji">🕕</span>
+          <span class="choice-title">18h</span>
+        </div>
+        <div class="choice-card" data-value="19h">
+          <span class="choice-emoji">🕖</span>
+          <span class="choice-title">19h</span>
+        </div>
+        <div class="choice-card" data-value="20h">
+          <span class="choice-emoji">🕗</span>
+          <span class="choice-title">20h</span>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnNextStep2" disabled>Continuer</button>
+      </div>
+    </div>
+
+    <!-- --- Étape 3 : Restaurant --- -->
+    <div class="screen" id="screen-step3">
+      <div class="progress-wrap">
+        <div class="progress-dot done" data-step="1"></div>
+        <div class="progress-dot done" data-step="2"></div>
+        <div class="progress-dot active" data-step="3"></div>
+        <div class="progress-dot" data-step="4"></div>
+      </div>
+      <div class="eyebrow">Étape 3</div>
+      <h1>Quel restaurant préfères-tu ?</h1>
+      <div class="choice-grid" id="restoChoices">
+        <div class="choice-card" data-value="Chez Léa (Attikoumé)">
+          <span class="choice-emoji">🍽</span>
+          <span class="choice-title">Chez Léa</span>
+          <span class="choice-sub">Attikoumé</span>
+        </div>
+        <div class="choice-card" data-value="Le Saint Germain (Kégué)">
+          <span class="choice-emoji">🍽</span>
+          <span class="choice-title">Le Saint Germain</span>
+          <span class="choice-sub">Kégué</span>
+        </div>
+        <div class="choice-card" data-value="Le Rafiti (Klikamé)">
+          <span class="choice-emoji">🍽</span>
+          <span class="choice-title">Le Rafiti</span>
+          <span class="choice-sub">Klikamé</span>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnNextStep3" disabled>Continuer</button>
+      </div>
+    </div>
+
+    <!-- --- Étape 4 : Petit mot --- -->
+    <div class="screen" id="screen-step4">
+      <div class="progress-wrap">
+        <div class="progress-dot done" data-step="1"></div>
+        <div class="progress-dot done" data-step="2"></div>
+        <div class="progress-dot done" data-step="3"></div>
+        <div class="progress-dot active" data-step="4"></div>
+      </div>
+      <div class="eyebrow">Étape 4</div>
+      <h1>Un petit mot pour moi ?</h1>
+      <p class="lead tight">(facultatif)</p>
+      <textarea id="noteInput" placeholder="Tu peux écrire quelque chose si tu en as envie..."></textarea>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnNextStep4">Continuer</button>
+      </div>
+    </div>
+
+    <!-- --- Étape finale : Résumé + envoi --- -->
+    <div class="screen" id="screen-summary">
+      <div class="eyebrow">Pour finir</div>
+      <h1>Voici un petit résumé</h1>
+      <div class="summary-box">
+        <div class="summary-line"><span class="summary-label">Jour</span><span class="summary-value" id="sumDay">—</span></div>
+        <div class="summary-line"><span class="summary-label">Heure</span><span class="summary-value" id="sumTime">—</span></div>
+        <div class="summary-line"><span class="summary-label">Restaurant</span><span class="summary-value" id="sumResto">—</span></div>
+        <div class="summary-line"><span class="summary-label">Petit mot</span><span class="summary-value" id="sumNote">—</span></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnSend">❤️ Envoyer ma réponse</button>
+      </div>
+      <p class="footer-note" id="sendStatus"></p>
+    </div>
+
+    <!-- --- Écran remerciement final après envoi --- -->
+    <div class="screen" id="screen-thanks">
+      <div class="success-icon">💌</div>
+      <h1>C'est envoyé !</h1>
+      <p class="lead">Merci Kalbim, j'ai hâte d'y être ❤️</p>
+      <p class="footer-note" style="margin-top:20px;">Tu peux fermer cette page.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== MODAL : confirmation du "Non" ===================== -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <p>Es-tu vraiment sûre de ta réponse ?</p>
+    <div class="btn-row" style="margin-top:0;">
+      <button class="btn btn-secondary" id="btnSureYes">Oui je suis sûre</button>
+      <button class="btn btn-primary" id="btnSureNo">Finalement non</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   CONFIGURATION — À PERSONNALISER FACILEMENT
+   =========================================================================
+   Choisissez UNE des deux méthodes ci-dessous pour recevoir les réponses.
+
+   MÉTHODE 1 (recommandée, automatique, sans backend) : Formspree
+   ------------------------------------------------------------------
+   1. Allez sur https://formspree.io et créez un compte gratuit.
+   2. Créez un nouveau formulaire et associez-y VOTRE adresse e-mail.
+   3. Copiez l'URL du endpoint fourni (ex: "https://formspree.io/f/xxxxxxx")
+   4. Collez cette URL dans la constante FORMSPREE_ENDPOINT ci-dessous.
+   Chaque réponse envoyée par Viviane vous arrivera automatiquement par e-mail.
+
+   MÉTHODE 2 (solution de secours, sans configuration) : mailto
+   ------------------------------------------------------------------
+   Si vous laissez FORMSPREE_ENDPOINT vide (""), le site ouvrira
+   automatiquement le client e-mail de Viviane avec un message pré-rempli
+   adressé à FALLBACK_EMAIL. Moins fiable (dépend de son client mail),
+   mais fonctionne sans aucune inscription.
+   ========================================================================= */
+
+  const FORMSPREE_ENDPOINT = ""; // 👉 Collez ici votre URL Formspree, ex: "https://formspree.io/f/abcdwxyz"
+  const FALLBACK_EMAIL = "votre-adresse@example.com"; // 👉 Remplacez par votre e-mail (utilisé si FORMSPREE_ENDPOINT est vide)
+
+/* ========================================================================= */
+
+(function(){
+
+  // ---------- Génération des cœurs flottants d'ambiance ----------
+  const heartsBg = document.getElementById('heartsBg');
+  const heartSymbols = ['❤️','💗','♡'];
+  function spawnAmbientHeart(){
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = heartSymbols[Math.floor(Math.random()*heartSymbols.length)];
+    h.style.left = Math.random()*100 + 'vw';
+    h.style.fontSize = (12 + Math.random()*14) + 'px';
+    h.style.animationDuration = (10 + Math.random()*8) + 's';
+    heartsBg.appendChild(h);
+    setTimeout(()=>h.remove(), 20000);
+  }
+  setInterval(spawnAmbientHeart, 1800);
+  for(let i=0;i<4;i++) setTimeout(spawnAmbientHeart, i*500);
+
+  // ---------- Navigation entre écrans ----------
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  // ---------- État des réponses ----------
+  const answers = { day:null, time:null, restaurant:null, note:'' };
+
+  // ---------- Écran d'accueil ----------
+  const btnYes = document.getElementById('btnYes');
+  const btnNo = document.getElementById('btnNo');
+
+  btnYes.addEventListener('click', ()=>{
+    // légère vibration des boutons
+    btnYes.classList.add('shake');
+    if(navigator.vibrate) navigator.vibrate(40);
+    setTimeout(()=>{
+      showScreen('screen-success');
+      burstHearts();
+      setTimeout(()=> showScreen('screen-step1'), 2200);
+    }, 350);
+  });
+
+  function burstHearts(){
+    const zone = document.getElementById('burstZone');
+    zone.innerHTML = '';
+    for(let i=0;i<10;i++){
+      const h = document.createElement('span');
+      h.className = 'burst-heart';
+      h.textContent = '❤️';
+      h.style.setProperty('--dx', (Math.random()*80-40)+'px');
+      h.style.animationDelay = (Math.random()*0.6)+'s';
+      zone.appendChild(h);
+    }
+  }
+
+  // ---------- Modal "Non" ----------
+  const modalOverlay = document.getElementById('modalOverlay');
+  btnNo.addEventListener('click', ()=>{
+    modalOverlay.classList.add('active');
+  });
+  document.getElementById('btnSureNo').addEventListener('click', ()=>{
+    modalOverlay.classList.remove('active');
+  });
+  document.getElementById('btnSureYes').addEventListener('click', ()=>{
+    modalOverlay.classList.remove('active');
+    showScreen('screen-declined');
+    // Tente de fermer automatiquement l'onglet (fonctionne seulement si l'onglet
+    // a été ouvert par un script ; sinon la plupart des navigateurs l'empêchent
+    // pour des raisons de sécurité — le message de repli s'affiche alors).
+    setTimeout(()=>{
+      window.close();
+      setTimeout(()=>{
+        document.getElementById('closeNote').textContent =
+          "Tu peux fermer cette page quand tu veux 🤍";
+      }, 400);
+    }, 1200);
+  });
+
+  // ---------- Gestion générique des cartes de choix (jour / heure / resto) ----------
+  function setupChoiceGroup(containerId, nextBtnId, answerKey){
+    const container = document.getElementById(containerId);
+    const nextBtn = document.getElementById(nextBtnId);
+    container.querySelectorAll('.choice-card').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        container.querySelectorAll('.choice-card').forEach(c=>c.classList.remove('selected'));
+        card.classList.add('selected');
+        answers[answerKey] = card.dataset.value;
+        nextBtn.disabled = false;
+      });
+    });
+  }
+  setupChoiceGroup('dayChoices', 'btnNextStep1', 'day');
+  setupChoiceGroup('timeChoices', 'btnNextStep2', 'time');
+  setupChoiceGroup('restoChoices', 'btnNextStep3', 'restaurant');
+
+  document.getElementById('btnNextStep1').addEventListener('click', ()=> showScreen('screen-step2'));
+  document.getElementById('btnNextStep2').addEventListener('click', ()=> showScreen('screen-step3'));
+  document.getElementById('btnNextStep3').addEventListener('click', ()=> showScreen('screen-step4'));
+
+  document.getElementById('btnNextStep4').addEventListener('click', ()=>{
+    answers.note = document.getElementById('noteInput').value.trim();
+    document.getElementById('sumDay').textContent = answers.day || '—';
+    document.getElementById('sumTime').textContent = answers.time || '—';
+    document.getElementById('sumResto').textContent = answers.restaurant || '—';
+    document.getElementById('sumNote').textContent = answers.note ? answers.note : '—';
+    showScreen('screen-summary');
+  });
+
+  // ---------- Envoi final des réponses ----------
+  const btnSend = document.getElementById('btnSend');
+  const sendStatus = document.getElementById('sendStatus');
+
+  btnSend.addEventListener('click', async ()=>{
+    btnSend.disabled = true;
+    btnSend.textContent = 'Envoi en cours...';
+
+    const payload = {
+      de: "Viviane (Kalbim)",
+      jour: answers.day,
+      heure: answers.time,
+      restaurant: answers.restaurant,
+      petit_mot: answers.note || "(aucun message)"
+    };
+
+    try{
+      if(FORMSPREE_ENDPOINT){
+        // ----- Méthode 1 : envoi automatique via Formspree -----
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json', 'Accept':'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if(!res.ok) throw new Error('Réponse serveur non OK');
+        showThanks();
+      } else {
+        // ----- Méthode 2 (repli) : ouverture du client mail -----
+        const subject = encodeURIComponent("Réponse de Kalbim à ton invitation ❤️");
+        const body = encodeURIComponent(
+          `Jour : ${answers.day}\nHeure : ${answers.time}\nRestaurant : ${answers.restaurant}\nPetit mot : ${answers.note || '(aucun message)'}`
+        );
+        window.location.href = `mailto:${FALLBACK_EMAIL}?subject=${subject}&body=${body}`;
+        setTimeout(showThanks, 800);
+      }
+    }catch(err){
+      sendStatus.textContent = "Un souci est survenu pendant l'envoi. Merci de réessayer, ou de me le dire directement 🤍";
+      btnSend.disabled = false;
+      btnSend.textContent = '❤️ Envoyer ma réponse';
+    }
+  });
+
+  function showThanks(){
+    showScreen('screen-thanks');
+  }
+
+})();
+</script>
+
+</body>
+</html>
